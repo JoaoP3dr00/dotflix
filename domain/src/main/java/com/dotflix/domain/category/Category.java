@@ -7,7 +7,7 @@ public class Category {
     private String id;
     private String name;
     private String description;
-    private boolean active;
+    private boolean isActive;
     private Instant createdAt;
     private Instant updatedAt;
     private Instant deletedAt;
@@ -16,11 +16,11 @@ public class Category {
 
     }
 
-    private Category(final String id, final String name, final String description, final boolean active, final Instant createdAt, final Instant updatedAt, final Instant deletedAt) {
+    private Category(final String id, final String name, final String description, final boolean isActive, final Instant createdAt, final Instant updatedAt, final Instant deletedAt) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.active = active;
+        this.isActive = isActive;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
@@ -35,7 +35,7 @@ public class Category {
      */
     public static Category newCategory(final String name, final String description, final boolean active){
         final String id = UUID.randomUUID().toString();
-        return new Category(id, name, description, active, Instant.now(), Instant.now(), Instant.now());
+        return new Category(id, name, description, active, Instant.now(), Instant.now(), null);
     }
 
     public String getId() {
@@ -50,8 +50,8 @@ public class Category {
         return description;
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean getIsActive() {
+        return isActive;
     }
 
     public Instant getCreatedAt() {
@@ -78,8 +78,8 @@ public class Category {
         this.description = description;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setIsActive(boolean active) {
+        this.isActive = active;
     }
 
     public void setCreatedAt(Instant createdAt) {
