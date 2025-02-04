@@ -1,10 +1,11 @@
-package com.dotflix.domain.category;
+package com.dotflix.domain;
 
+import com.dotflix.domain.category.Category;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test TDD class for implementation of Category Entity
+ * Test TDD class for implementation of Category com.dotflix.domain.Entity
  */
 public class CategoryTest {
     @Test
