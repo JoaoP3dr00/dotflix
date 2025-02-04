@@ -8,11 +8,6 @@ import org.junit.jupiter.api.Test;
  * Test TDD class for implementation of Category com.dotflix.domain.Entity
  */
 public class CategoryTest {
-    @Test
-    public void testNewCategory() {
-        Assertions.assertNotNull(new Category());
-    }
-
     /**
      * Test method for new Category instance
      */
