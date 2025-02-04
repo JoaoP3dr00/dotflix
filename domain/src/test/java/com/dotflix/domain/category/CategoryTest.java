@@ -3,12 +3,18 @@ package com.dotflix.domain.category;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Test TDD class for implementation of Category Entity
+ */
 public class CategoryTest {
     @Test
     public void testNewCategory() {
         Assertions.assertNotNull(new Category());
     }
 
+    /**
+     * Test method for new Category instance
+     */
     @Test
     public void testInstantiateNewCategory(){
         final String expectedName = "Filmes";
@@ -22,6 +28,8 @@ public class CategoryTest {
         Assertions.assertEquals(actualCategory.getName(), expectedName);
         Assertions.assertEquals(actualCategory.getDescription(), expectedDescription);
         Assertions.assertEquals(actualCategory.getIsActive(), expectedIsActive);
+        Assertions.assertNotNull(actualCategory.getCreatedAt());
+        Assertions.assertNotNull(actualCategory.getUpdatedAt());
+        Assertions.assertNull(actualCategory.getDeletedAt());
     }
-
 }
