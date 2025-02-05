@@ -1,6 +1,7 @@
 package com.dotflix.domain.category;
 
 import com.dotflix.domain.AgregateRoot;
+import com.dotflix.domain.validation.ValidationHandler;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -85,5 +86,10 @@ public class Category extends AgregateRoot<CategoryID> {
 
     public void setDeletedAt(Instant deletedAt) {
         this.deletedAt = deletedAt;
+    }
+
+    @Override
+    public void validate(final ValidationHandler handler){
+        new CategoryValidator(this, handler).validate();
     }
 }
