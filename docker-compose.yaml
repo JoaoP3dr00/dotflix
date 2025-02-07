@@ -1,0 +1,17 @@
+version: '2.32.4'
+
+services:
+  postgres:
+      container_name: adm_videos_postgres
+      image: postgres:latest
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: dotflix
+      ports:
+        - 5432:5432
+      networks:
+        - adm_networks
+
+networks:
+  adm_networks:
