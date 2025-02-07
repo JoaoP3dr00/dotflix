@@ -1,15 +1,4 @@
-server:
-  port: 8080
-  compression:
-    enabled: true
-    min-response-size: 1024
-    mime-types: text/html, text/xml, text/plain, text/css, text/javascript, application/javascript, application/json
-  undertow:
-    threads:
-      io: 4   # Define a quantidade de threads de I/O (Input/Output). Responsáveis por gerenciar conexões e processar requisições.
-      worker: 64    # Define a quantidade de threads de trabalho, que executam as requisições processadas pelas threads de I/O.
-    buffer-size: 2048
-    direct-buffers: true
+# Sobrescreve algumas configurações do application.yaml para o ambiente de produção
 
 spring:
   datasource:
@@ -17,11 +6,7 @@ spring:
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
-jpa:
-  database-platform: org.hibernate.dialect.PostgreSQLDialect
-  hibernate:
-    ddl-auto: update
-  show-sql: true
-  properties:
+  jpa:
     hibernate:
-      format_sql: true
+      ddl-auto: none
+    show-sql: false
