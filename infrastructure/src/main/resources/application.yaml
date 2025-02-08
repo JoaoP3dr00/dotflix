@@ -37,6 +37,6 @@ spring:
       hibernate:
         format_sql: true
   flyway:
-    url: ${POSTGRES_URL}
-    user: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://localhost:5431/dotflix
+    user: postgres
+    password: postgres

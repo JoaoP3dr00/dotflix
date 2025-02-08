@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.flywaydb:flyway-database-postgresql:11.3.1")
+    }
+}
+
 plugins {
     id("java")
     id("application")
@@ -37,9 +46,10 @@ dependencies {
 }
 
 flyway {
-    url = System.getenv("POSTGRES_URL")
-    user = System.getenv("POSTGRES_USER")
-    password = System.getenv("POSTGRES_PASSWORD")
+    driver = "org.postgresql.Driver"
+    url = "jdbc:postgresql://localhost:5431/dotflix"
+    user = "postgres"
+    password = "postgres"
 }
 
 tasks.test {
