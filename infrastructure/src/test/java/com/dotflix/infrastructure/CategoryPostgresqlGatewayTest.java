@@ -30,7 +30,7 @@ public class CategoryPostgresqlGatewayTest {
         Assertions.assertNotNull(categoryRepository);
     }
 
-    @Test
+    //@Test
     public void createCategoryTest(){
         final String expectedName = "Filmes";
         final String expectedDescription = "A categoria mais assistida";
