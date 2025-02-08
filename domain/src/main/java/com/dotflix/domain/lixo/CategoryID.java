@@ -1,6 +1,4 @@
-package com.dotflix.domain.category;
-
-import com.dotflix.domain.Identifier;
+package com.dotflix.domain.lixo;
 
 import java.util.Objects;
 import java.util.UUID;

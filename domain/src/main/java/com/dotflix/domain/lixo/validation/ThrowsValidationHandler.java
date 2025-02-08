@@ -1,4 +1,4 @@
-package com.dotflix.domain.validation;
+package com.dotflix.domain.lixo.validation;
 
 import com.dotflix.domain.exceptions.DomainException;
 

@@ -1,4 +1,4 @@
-package com.dotflix.domain;
+package com.dotflix.domain.lixo;
 
 public abstract class ValueObject {
 }

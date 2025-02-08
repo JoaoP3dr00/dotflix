@@ -1,8 +1,8 @@
 package com.dotflix.domain.category;
 
-import com.dotflix.domain.validation.Error;
-import com.dotflix.domain.validation.ValidationHandler;
-import com.dotflix.domain.validation.Validator;
+import com.dotflix.domain.lixo.validation.Error;
+import com.dotflix.domain.lixo.validation.ValidationHandler;
+import com.dotflix.domain.lixo.validation.Validator;
 
 public class CategoryValidator extends Validator {
     private final Category category;

@@ -1,11 +1,11 @@
-package com.dotflix.domain;
+package com.dotflix.domain.lixo;
 
-import com.dotflix.domain.validation.ValidationHandler;
+import com.dotflix.domain.lixo.validation.ValidationHandler;
 
 import java.util.Objects;
 
 /**
- * com.dotflix.domain.Entity class that only allow value object identifiers from any type of entity
+ * com.dotflix.domain.lixo.Entity class that only allow value object identifiers from any type of entity
  * @param <ID>
  */
 public abstract class Entity<ID extends Identifier> {

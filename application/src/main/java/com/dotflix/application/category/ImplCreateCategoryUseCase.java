@@ -2,7 +2,7 @@ package com.dotflix.application.category;
 
 import com.dotflix.domain.category.Category;
 import com.dotflix.domain.category.CategoryGateway;
-import com.dotflix.domain.validation.ThrowsValidationHandler;
+import com.dotflix.domain.lixo.validation.ThrowsValidationHandler;
 
 import java.util.Objects;
 
@@ -20,7 +20,7 @@ public class ImplCreateCategoryUseCase extends CreateCategoryUseCase{
         final var isActive = createCategoryCommand.isActive();
 
         final var category = Category.newCategory(name, description, isActive);
-        category.validate(new ThrowsValidationHandler());
+        //category.validate(new ThrowsValidationHandler());
 
         return CreateCategoryOutput.from(this.categoryGateway.create(category));
     }

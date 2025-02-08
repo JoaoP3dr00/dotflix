@@ -1,7 +1,7 @@
 package com.dotflix.domain.exceptions;
 
 import java.util.List;
-import com.dotflix.domain.validation.Error;
+import com.dotflix.domain.lixo.validation.Error;
 
 public class DomainException extends RuntimeException {
     private final List<Error> errors;
