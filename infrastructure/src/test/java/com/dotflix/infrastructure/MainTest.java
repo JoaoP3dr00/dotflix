@@ -1,7 +1,9 @@
 package com.dotflix.infrastructure;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.AbstractEnvironment;
+import org.springframework.test.context.ActiveProfiles;
 
 public class MainTest {
     @Test
