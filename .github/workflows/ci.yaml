@@ -24,12 +24,6 @@ jobs:
           java-version: ${{ matrix.java }}
           distribution: temurin
 
-      - name: Install Docker Compose
-        run: sudo apt-get install docker-compose
-
-      - name: Start services with Docker Compose
-        run: docker-compose up -d
-
       - name: Build with gradle
         run: ./gradlew build
 
