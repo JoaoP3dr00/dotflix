@@ -24,6 +24,9 @@ jobs:
           java-version: ${{ matrix.java }}
           distribution: temurin
 
+      - name: Start services with Docker Compose
+        run: docker-compose up -d
+
       - name: Build with gradle
         run: ./gradlew build
 
