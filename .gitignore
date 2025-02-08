@@ -3,8 +3,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-/home/joaopedro/Documentos/Programação/Javaprogramming/Dotflix/dotflix-admin/infrastructure/src/test/java/com/dotflix/infrastructure/MainTest.java
-/home/joaopedro/Documentos/Programação/Javaprogramming/Dotflix/dotflix-admin/infrastructure/src/test/java/com/dotflix/infrastructure/CategoryPostgresqlGatewayTest.java
+/home/joaopedro/Documentos/Programação/Javaprogramming/Dotflix/dotflix-admin/infrastructure/src/test/java/com/dotflix/infrastructure/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
