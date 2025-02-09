@@ -15,9 +15,6 @@ jobs:
         java: [17, 21, 23]
 
     steps:
-      - name: Update system
-        run: sudo apt update
-
       - name: Install docker
         run: sudo apt install docker
 
