@@ -15,6 +15,9 @@ jobs:
         java: [17, 21, 23]
 
     steps:
+      - name: ls
+        run: ls
+    
       - name: Run docker compose
         uses: hoverkraft-tech/compose-action@v2.0.1
         with:
