@@ -1,6 +1,5 @@
 package com.dotflix.infrastructure;
 
-import com.dotflix.application.UseCase;
 import com.dotflix.infrastructure.configuration.WebServerConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

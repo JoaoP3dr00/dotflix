@@ -1,12 +1,13 @@
 package com.dotflix.domain.category;
 
-import com.dotflix.domain.AgregateRoot;
-import com.dotflix.domain.validation.ValidationHandler;
+import com.dotflix.domain.lixo.validation.Error;
 
+import java.util.Objects;
+import java.util.Random;
 import java.time.Instant;
-import java.util.UUID;
 
-public class Category extends AgregateRoot<CategoryID> {
+public class Category {
+    private String id;
     private String name;
     private String description;
     private boolean isActive;
@@ -14,13 +15,13 @@ public class Category extends AgregateRoot<CategoryID> {
     private Instant updatedAt;
     private Instant deletedAt;
 
-    private Category(final CategoryID id, final String name, final String description, final boolean isActive, final Instant createdAt, final Instant updatedAt, final Instant deletedAt) {
-        super(id);
+    private Category(final String id, final String name, final String description, final boolean isActive, final Instant createdAt, final Instant updatedAt, final Instant deletedAt) {
+        this.id = Objects.requireNonNull(id, "'id' should not be null");
         this.name = name;
         this.description = description;
         this.isActive = isActive;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.createdAt = Objects.requireNonNull(createdAt, "'createdAt' should not be null");
+        this.updatedAt = Objects.requireNonNull(updatedAt, "'updatedAt' should not be null");
         this.deletedAt = deletedAt;
     }
 
@@ -32,13 +33,29 @@ public class Category extends AgregateRoot<CategoryID> {
      * @return
      */
     public static Category newCategory(final String name, final String description, final boolean active){
-        final CategoryID id = CategoryID.unique();
+        Random r = new Random();
+        final Integer id = r.nextInt(1000);
         final var deletedAt = active ? null : Instant.now();
-        return new Category(id, name, description, active, Instant.now(), Instant.now(), deletedAt);
+        return new Category(Integer.toString(id), name, description, active, Instant.now(), Instant.now(), deletedAt);
     }
 
-    public CategoryID getId() {
-        return super.getId();
+    /**
+     * Construtor que retorna uma nova instância de category com os mesmos atributos do objeto de origem
+     * @param id
+     * @param name
+     * @param description
+     * @param isActive
+     * @param createdAt
+     * @param updatedAt
+     * @param deletedAt
+     * @return
+     */
+    public static Category with(final String id, final String name, final String description, final boolean isActive, final Instant createdAt, final Instant updatedAt, final Instant deletedAt){
+        return new Category(id, name, description, isActive, createdAt, updatedAt, deletedAt);
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -89,9 +106,20 @@ public class Category extends AgregateRoot<CategoryID> {
         this.deletedAt = deletedAt;
     }
 
-    @Override
-    public void validate(final ValidationHandler handler){
-        new CategoryValidator(this, handler).validate();
+    public void validate() throws Exception {
+        final String name = this.getName();
+
+        if(name == null){
+            throw new Exception("'name' should not be null");
+        }
+
+        if(name.isBlank()){
+            throw new Exception("'name' should not be empty");
+        }
+
+        if(name.trim().length() > 255 || name.trim().length() < 3){
+            throw new Exception("'name' should have between 3 and 255 characters");
+        }
     }
 
     public Category deactivate(){

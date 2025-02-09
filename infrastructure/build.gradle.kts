@@ -34,6 +34,7 @@ dependencies {
 
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation("org.flywaydb:flyway-core")
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
@@ -50,6 +51,7 @@ flyway {
     url = "jdbc:postgresql://localhost:5431/dotflix"
     user = "postgres"
     password = "postgres"
+    cleanDisabled = false;
 }
 
 tasks.test {

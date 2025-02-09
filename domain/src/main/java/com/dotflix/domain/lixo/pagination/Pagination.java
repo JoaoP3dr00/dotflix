@@ -1,4 +1,4 @@
-package com.dotflix.domain.pagination;
+package com.dotflix.domain.lixo.pagination;
 
 import java.util.List;
 
