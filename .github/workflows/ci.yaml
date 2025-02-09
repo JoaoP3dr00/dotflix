@@ -29,3 +29,12 @@ jobs:
 
       - name: Run tests
         run: ./gradlew test
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Install docker-compose
+        uses: sudo apt install docker-compose
+
+      - name: Execute docker-compose
+        uses: sudo docker-compose up -d
