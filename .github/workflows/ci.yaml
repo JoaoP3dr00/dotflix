@@ -15,6 +15,15 @@ jobs:
         java: [17, 21, 23]
 
     steps:
+      - name: Update system
+        uses: sudo apt update
+
+      - name: Install docker
+        uses: sudo apt install docker-compose
+
+      - name: Run docker compose
+        uses: sudo docker-compose up -d
+
       - name: Checkout code
         uses: actions/checkout@v3
 
