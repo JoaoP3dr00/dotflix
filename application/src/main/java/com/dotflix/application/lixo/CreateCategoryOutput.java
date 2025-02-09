@@ -1,4 +1,4 @@
-package com.dotflix.application.category;
+package com.dotflix.application.lixo;
 
 import com.dotflix.domain.category.Category;
 
