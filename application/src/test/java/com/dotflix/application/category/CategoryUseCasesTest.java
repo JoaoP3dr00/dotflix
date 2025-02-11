@@ -17,7 +17,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -71,10 +70,10 @@ public class CategoryUseCasesTest {
         }));
     }
 
-    @Test
-    public void createCategoryUseCaseWithInvalidUsernameTest(){
-        // Vídeo 2072 tem outros testes e aprofundamento no mockito
-    }
+//    @Test
+//    public void createCategoryUseCaseWithInvalidUsernameTest(){
+//        // Vídeo 2072 tem outros testes e aprofundamento no mockito
+//    }
 
     /* DELETE TESTS */
 
@@ -137,13 +136,13 @@ public class CategoryUseCasesTest {
         }
     }
 
-    @Test
-    public void getCategoryByInvalidIdUseCaseTest(){
-        // Aula F2084
-    }
-
-    @Test
-    public void getCategoryByValidIdExceptionUseCaseTest(){}
+//    @Test
+//    public void getCategoryByInvalidIdUseCaseTest(){
+//        // Aula F2084
+//    }
+//
+//    @Test
+//    public void getCategoryByValidIdExceptionUseCaseTest(){}
 
     @Test
     public void getCategoriesUseCaseTest(){
@@ -273,9 +272,9 @@ public class CategoryUseCasesTest {
         }
     }
 
-    @Test
-    public void updateCategoryWithInvalidPropertyUseCaseTest(){
-        // Aula 2079
-    }
+//    @Test
+//    public void updateCategoryWithInvalidPropertyUseCaseTest(){
+//        // Aula 2079
+//    }
 
 }
