@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.time.Instant;
 
-public class Category {
+public class Category implements Cloneable {
     private String id;
     private String name;
     private String description;
@@ -150,5 +150,17 @@ public class Category {
 
         this.updatedAt = Instant.now();
         return this;
+    }
+
+
+    @Override
+    public Category clone() {
+        try {
+            Category clone = (Category) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

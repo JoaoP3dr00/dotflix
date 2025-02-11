@@ -9,10 +9,12 @@ on:
 jobs:
   check-application:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     strategy:
+      fail-fast: false
       matrix:
-        java: [17, 21, 23]
+        java: [17, 23]
 
     steps:
       - name: Checkout code

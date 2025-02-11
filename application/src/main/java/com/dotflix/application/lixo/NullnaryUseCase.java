@@ -1,4 +1,4 @@
-package com.dotflix.application;
+package com.dotflix.application.lixo;
 
 /**
  * Only returns

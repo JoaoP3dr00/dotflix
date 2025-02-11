@@ -1,9 +1,6 @@
-package com.dotflix.infrastructure;
+package com.dotflix.infrastructure.category;
 
 import com.dotflix.domain.category.Category;
-import com.dotflix.infrastructure.category.CategoryEntity;
-import com.dotflix.infrastructure.category.CategoryPostgresqlGateway;
-import com.dotflix.infrastructure.category.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
