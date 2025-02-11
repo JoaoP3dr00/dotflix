@@ -6,5 +6,5 @@ package com.dotflix.application;
  * @param <OUT>
  */
 public abstract class UseCase<IN, OUT> {
-    public abstract OUT execute(IN in);
+    public abstract OUT execute(IN in) throws Exception;
 }
