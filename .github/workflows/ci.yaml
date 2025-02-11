@@ -26,10 +26,10 @@ jobs:
           java-version: ${{ matrix.java }}
           distribution: temurin
 
-      - name: Run docker compose
-        uses: hoverkraft-tech/compose-action@v2.0.1
-        with:
-          compose-file: "docker-compose.yaml"
+#      - name: Run docker compose
+#        uses: hoverkraft-tech/compose-action@v2.0.1
+#        with:
+#          compose-file: "docker-compose.yaml"
 
       - name: Build with gradle
         run: ./gradlew build
