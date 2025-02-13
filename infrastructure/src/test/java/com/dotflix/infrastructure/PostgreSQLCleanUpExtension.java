@@ -1,6 +1,6 @@
 package com.dotflix.infrastructure;
 
-import com.dotflix.infrastructure.category.CategoryRepository;
+import com.dotflix.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.data.repository.CrudRepository;

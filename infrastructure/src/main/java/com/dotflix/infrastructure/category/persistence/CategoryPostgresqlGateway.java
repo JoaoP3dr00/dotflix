@@ -1,9 +1,9 @@
-package com.dotflix.infrastructure.category;
+package com.dotflix.infrastructure.category.persistence;
 
 import com.dotflix.domain.category.Category;
 import com.dotflix.domain.category.CategoryGateway;
 import com.dotflix.domain.category.CategorySearchQuery;
-import com.dotflix.domain.lixo.pagination.Pagination;
+import com.dotflix.domain.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

@@ -9,17 +9,16 @@ import com.dotflix.application.category.exceptions.CategoryNotFoundException;
 import com.dotflix.domain.category.Category;
 import com.dotflix.domain.category.CategoryGateway;
 import com.dotflix.domain.category.CategorySearchQuery;
+import com.dotflix.domain.lixo.pagination.Pagination;
 import com.dotflix.infrastructure.IntegrationTest;
-import com.dotflix.infrastructure.category.CategoryEntity;
-import com.dotflix.infrastructure.category.CategoryRepository;
+import com.dotflix.infrastructure.category.persistence.CategoryEntity;
+import com.dotflix.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
-
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -45,8 +44,15 @@ public class CategoryIntegratedTests {
     @Autowired
     private UpdateCategoryUseCase updateCategoryUseCase;
 
+    void cleanup(){
+        categoryRepository.deleteAll();
+        categoryRepository.flush();
+    }
+
     @BeforeEach
     void mockUp() {
+        cleanup();
+
         final var categories = Stream.of(
                         Category.newCategory("Filmes", null, true),
                         Category.newCategory("Netflix Originals", "Títulos de autoria da Netflix", true),
@@ -60,12 +66,6 @@ public class CategoryIntegratedTests {
                 .toList();
 
         categoryRepository.saveAllAndFlush(categories);
-    }
-
-    @BeforeEach
-    void cleanup(){
-        categoryRepository.deleteAll();
-        categoryRepository.flush();
     }
 
     /* CREATE INTEGRATED TESTS */
@@ -176,8 +176,38 @@ public class CategoryIntegratedTests {
             final long expectedTotal,
             final String expectedCategoryName
     ) {
-        final var expectedSort = "name";
-        final var expectedDirection = "asc";
+        final String expectedSort = "name";
+        final String expectedDirection = "asc";
+
+        final CategorySearchQuery aQuery = new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+
+        final Pagination<Category> actualResult = getAllCategoriesUseCase.execute(aQuery);
+
+        System.out.println(expectedTerms + " " + expectedItemsCount + " " + actualResult.items().size() + " " + actualResult.items());
+        Assertions.assertEquals(expectedItemsCount, actualResult.items().size());
+        Assertions.assertEquals(expectedPage, actualResult.currentPage());
+        Assertions.assertEquals(expectedPerPage, actualResult.perPage());
+        Assertions.assertEquals(expectedTotal, actualResult.total());
+        Assertions.assertEquals(expectedCategoryName, actualResult.items().get(0).getName());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "name,asc,0,10,7,7,Amazon Originals",
+            "name,desc,0,10,7,7,Sports",
+            "createdAt,asc,0,10,7,7,Filmes",
+            "createdAt,desc,0,10,7,7,Series",
+    })
+    public void givenAValidSortAndDirection_whenCallsListCategories_thenShouldReturnCategoriesOrdered(
+            final String expectedSort,
+            final String expectedDirection,
+            final int expectedPage,
+            final int expectedPerPage,
+            final int expectedItemsCount,
+            final long expectedTotal,
+            final String expectedCategoryName
+    ) {
+        final var expectedTerms = "";
 
         final var aQuery = new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
@@ -188,6 +218,41 @@ public class CategoryIntegratedTests {
         Assertions.assertEquals(expectedPerPage, actualResult.perPage());
         Assertions.assertEquals(expectedTotal, actualResult.total());
         Assertions.assertEquals(expectedCategoryName, actualResult.items().get(0).getName());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "0,2,2,7,Amazon Originals;Documentários",
+            "1,2,2,7,Filmes;Kids",
+            "2,2,2,7,Netflix Originals;Series",
+            "3,2,1,7,Sports",
+    })
+    public void givenAValidPage_whenCallsListCategories_shouldReturnCategoriesPaginated(
+            final int expectedPage,
+            final int expectedPerPage,
+            final int expectedItemsCount,
+            final long expectedTotal,
+            final String expectedCategoriesName
+    ) {
+        final var expectedSort = "name";
+        final var expectedDirection = "asc";
+        final var expectedTerms = "";
+
+        final var aQuery = new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+
+        final var actualResult = getAllCategoriesUseCase.execute(aQuery);
+
+        Assertions.assertEquals(expectedItemsCount, actualResult.items().size());
+        Assertions.assertEquals(expectedPage, actualResult.currentPage());
+        Assertions.assertEquals(expectedPerPage, actualResult.perPage());
+        Assertions.assertEquals(expectedTotal, actualResult.total());
+
+        int index = 0;
+        for (final String expectedName : expectedCategoriesName.split(";")) {
+            final String actualName = actualResult.items().get(index).getName();
+            Assertions.assertEquals(expectedName, actualName);
+            index++;
+        }
     }
 
     /* DELETE INTEGRATED TESTS */

@@ -1,4 +1,4 @@
-package com.dotflix.infrastructure.category;
+package com.dotflix.infrastructure.category.persistence;
 
 import com.dotflix.domain.category.Category;
 import com.dotflix.domain.lixo.CategoryID;

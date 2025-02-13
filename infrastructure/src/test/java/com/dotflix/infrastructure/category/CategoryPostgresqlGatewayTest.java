@@ -3,8 +3,10 @@ package com.dotflix.infrastructure.category;
 import com.dotflix.domain.category.Category;
 import com.dotflix.domain.category.CategoryGateway;
 import com.dotflix.domain.category.CategorySearchQuery;
-import com.dotflix.domain.lixo.pagination.Pagination;
-import jakarta.transaction.Transactional;
+import com.dotflix.domain.Pagination;
+import com.dotflix.infrastructure.category.persistence.CategoryEntity;
+import com.dotflix.infrastructure.category.persistence.CategoryPostgresqlGateway;
+import com.dotflix.infrastructure.category.persistence.CategoryRepository;
 import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -101,7 +103,7 @@ public class CategoryPostgresqlGatewayTest {
         final PropertyValueException actualExcepetion = Assertions.assertInstanceOf(PropertyValueException.class, exception.getCause());    // Garante que a exception é do tipo PropertyValueException, que é a excpetion de validação do hibernate
 
         Assertions.assertEquals("name", actualExcepetion.getPropertyName());
-        Assertions.assertEquals("not-null property references a null or transient value: com.dotflix.infrastructure.category.CategoryEntity.name", actualExcepetion.getMessage());
+        Assertions.assertEquals("not-null property references a null or transient value: com.dotflix.infrastructure.category.persistence.CategoryEntity.name", actualExcepetion.getMessage());
     }
 
     @Test
@@ -120,7 +122,7 @@ public class CategoryPostgresqlGatewayTest {
         final PropertyValueException actualExcepetion = Assertions.assertInstanceOf(PropertyValueException.class, exception.getCause());    // Garante que a exception é do tipo PropertyValueException, que é a excpetion de validação do hibernate
 
         Assertions.assertEquals("createdAt", actualExcepetion.getPropertyName());
-        Assertions.assertEquals("not-null property references a null or transient value: com.dotflix.infrastructure.category.CategoryEntity.createdAt", actualExcepetion.getMessage());
+        Assertions.assertEquals("not-null property references a null or transient value: com.dotflix.infrastructure.category.persistence.CategoryEntity.createdAt", actualExcepetion.getMessage());
     }
 
     @Test
@@ -139,7 +141,7 @@ public class CategoryPostgresqlGatewayTest {
         final PropertyValueException actualExcepetion = Assertions.assertInstanceOf(PropertyValueException.class, exception.getCause());    // Garante que a exception é do tipo PropertyValueException, que é a excpetion de validação do hibernate
 
         Assertions.assertEquals("updatedAt", actualExcepetion.getPropertyName());
-        Assertions.assertEquals("not-null property references a null or transient value: com.dotflix.infrastructure.category.CategoryEntity.updatedAt", actualExcepetion.getMessage());
+        Assertions.assertEquals("not-null property references a null or transient value: com.dotflix.infrastructure.category.persistence.CategoryEntity.updatedAt", actualExcepetion.getMessage());
     }
 
     /* UPDATE INTEGRATED TESTES */
