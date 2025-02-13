@@ -24,13 +24,13 @@ public class CategoryEntity {
     @Column(name = "active", nullable = false)
     private boolean isActive;
 
-    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP") // Campo de data com precisão de 6 casas após os segundos
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP(9)") // Campo de data com precisão de 6 casas após os segundos
     private Instant createdAt;
 
-    @Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP(9)")
     private Instant updatedAt;
 
-    @Column(name = "deleted_at", nullable = true, columnDefinition = "TIMESTAMP")
+    @Column(name = "deleted_at", nullable = true, columnDefinition = "TIMESTAMP(9)")
     private Instant deletedAt;
 
     public CategoryEntity(){}
@@ -46,7 +46,7 @@ public class CategoryEntity {
     }
 
     public static CategoryEntity fromDomain(final Category category){
-        return new CategoryEntity(category.getId().toString(),
+        return new CategoryEntity(category.getId(),
                 category.getName(), category.getDescription(),
                 category.getIsActive(), category.getCreatedAt(),
                 category.getUpdatedAt(), category.getDeletedAt()

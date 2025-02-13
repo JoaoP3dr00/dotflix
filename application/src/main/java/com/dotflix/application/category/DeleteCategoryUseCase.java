@@ -17,6 +17,7 @@ public class DeleteCategoryUseCase extends UseCase<DeleteCategoryDTO, String> {
     public String execute(final DeleteCategoryDTO deleteCategoryDTO) {
         try{
             this.categoryGateway.deleteById(deleteCategoryDTO.id());
+            System.out.println(categoryGateway);
             return "ok";
         }catch (Exception e){
             System.out.println(e);
