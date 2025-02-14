@@ -1,7 +1,6 @@
 package com.dotflix.infrastructure.category.persistence;
 
 import com.dotflix.domain.category.Category;
-import com.dotflix.domain.lixo.CategoryID;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

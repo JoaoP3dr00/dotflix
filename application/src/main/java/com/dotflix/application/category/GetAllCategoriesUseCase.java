@@ -4,7 +4,7 @@ import com.dotflix.application.UseCase;
 import com.dotflix.domain.category.Category;
 import com.dotflix.domain.category.CategoryGateway;
 import com.dotflix.domain.category.CategorySearchQuery;
-import com.dotflix.domain.lixo.pagination.Pagination;
+import com.dotflix.domain.Pagination;
 
 public class GetAllCategoriesUseCase extends UseCase<CategorySearchQuery, Pagination<Category>> {
     private final CategoryGateway categoryGateway;

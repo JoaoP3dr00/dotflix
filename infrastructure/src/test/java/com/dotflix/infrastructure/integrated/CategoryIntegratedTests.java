@@ -1,4 +1,4 @@
-package com.dotflix.infrastructure.application;
+package com.dotflix.infrastructure.integrated;
 
 import com.dotflix.application.category.*;
 import com.dotflix.application.category.dto.CreateCategoryDTO;
@@ -9,7 +9,7 @@ import com.dotflix.application.category.exceptions.CategoryNotFoundException;
 import com.dotflix.domain.category.Category;
 import com.dotflix.domain.category.CategoryGateway;
 import com.dotflix.domain.category.CategorySearchQuery;
-import com.dotflix.domain.lixo.pagination.Pagination;
+import com.dotflix.domain.Pagination;
 import com.dotflix.infrastructure.IntegrationTest;
 import com.dotflix.infrastructure.category.persistence.CategoryEntity;
 import com.dotflix.infrastructure.category.persistence.CategoryRepository;

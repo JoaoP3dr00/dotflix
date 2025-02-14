@@ -1,7 +1,5 @@
 package com.dotflix.domain.category;
 
-import com.dotflix.domain.lixo.validation.Error;
-
 import java.util.Objects;
 import java.util.Random;
 import java.time.Instant;

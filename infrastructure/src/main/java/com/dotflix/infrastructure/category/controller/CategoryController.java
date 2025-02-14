@@ -1,5 +1,6 @@
 package com.dotflix.infrastructure.category.controller;
 
+import com.dotflix.domain.Pagination;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,7 @@ public class CategoryController implements CategoryAPI {
     }
 
     @Override
-    public Pagination<CategoryListResponse> listCategories(String search, int page, int perPage, String sort, String direction) {
+    public Pagination<CategoryGetAllResponse> listCategories(String search, int page, int perPage, String sort, String direction) {
         return null;
     }
 

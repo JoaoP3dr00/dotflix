@@ -7,12 +7,14 @@ import com.dotflix.domain.Pagination;
 import com.dotflix.infrastructure.category.persistence.CategoryEntity;
 import com.dotflix.infrastructure.category.persistence.CategoryPostgresqlGateway;
 import com.dotflix.infrastructure.category.persistence.CategoryRepository;
+import com.dotflix.infrastructure.configuration.WebServerConfig;
 import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,6 +27,7 @@ import java.util.Optional;
 @ComponentScan(includeFilters = {
     @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".*[PostgresqlGateway]")   // Inicia todas as classes que terminam com PostgresqlGateway além das classes do DataJpaTest
 })
+@SpringBootTest(classes = WebServerConfig.class)
 public class CategoryPostgresqlGatewayTest {
     @Autowired
     CategoryPostgresqlGateway categoryPostgresqlGateway;
