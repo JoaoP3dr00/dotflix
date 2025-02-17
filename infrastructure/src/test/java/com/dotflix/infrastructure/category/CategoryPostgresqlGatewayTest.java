@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Optional;
 
 @ActiveProfiles("test")
-@DataJpaTest
 @ComponentScan(includeFilters = {
     @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".*[PostgresqlGateway]")   // Inicia todas as classes que terminam com PostgresqlGateway além das classes do DataJpaTest
 })
