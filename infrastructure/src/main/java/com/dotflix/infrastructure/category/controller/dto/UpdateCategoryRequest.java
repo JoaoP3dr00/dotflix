@@ -1,4 +1,4 @@
-package com.dotflix.infrastructure.category.controller;
+package com.dotflix.infrastructure.category.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

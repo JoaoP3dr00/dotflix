@@ -33,8 +33,9 @@ dependencies {
     implementation("org.postgresql:postgresql:42.7.5")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4")
     implementation("org.springdoc:springdoc-openapi-ui:1.8.0")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
-
+    testImplementation("org.springframework.security:spring-security-test")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.flywaydb:flyway-core")
     testImplementation("org.junit.jupiter:junit-jupiter")
