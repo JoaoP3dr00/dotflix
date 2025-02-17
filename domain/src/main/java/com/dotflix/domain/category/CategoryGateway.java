@@ -1,6 +1,6 @@
 package com.dotflix.domain.category;
 
-import com.dotflix.domain.lixo.pagination.Pagination;
+import com.dotflix.domain.Pagination;
 
 import java.util.Optional;
 

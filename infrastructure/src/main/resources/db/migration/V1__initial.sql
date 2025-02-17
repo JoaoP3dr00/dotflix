@@ -3,7 +3,7 @@ CREATE TABLE category(
     name VARCHAR(255) NOT NULL,
     description VARCHAR(4000),
     active BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
-    deleted_at TIMESTAMP NULL
+    created_at TIMESTAMP(9) NOT NULL,
+    updated_at TIMESTAMP(9) NOT NULL,
+    deleted_at TIMESTAMP(9) NULL
 );
