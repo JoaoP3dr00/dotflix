@@ -22,11 +22,12 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 import java.util.Optional;
 
-@ActiveProfiles("test")
+//@DataJpaTest
 @ComponentScan(includeFilters = {
     @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".*[PostgresqlGateway]")   // Inicia todas as classes que terminam com PostgresqlGateway além das classes do DataJpaTest
 })
 @SpringBootTest(classes = WebServerConfig.class)
+@ActiveProfiles("test")
 public class CategoryPostgresqlGatewayTest {
     @Autowired
     CategoryPostgresqlGateway categoryPostgresqlGateway;

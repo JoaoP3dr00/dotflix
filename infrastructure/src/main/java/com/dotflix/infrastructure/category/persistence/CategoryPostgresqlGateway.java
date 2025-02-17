@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @Service
 public class CategoryPostgresqlGateway implements CategoryGateway {
-    @Autowired
     private final CategoryRepository repository;
 
     public CategoryPostgresqlGateway(final CategoryRepository repository) {

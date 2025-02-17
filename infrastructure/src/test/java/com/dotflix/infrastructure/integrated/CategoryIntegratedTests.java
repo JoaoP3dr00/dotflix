@@ -37,21 +37,19 @@ public class CategoryIntegratedTests {
     private DeleteCategoryUseCase deleteCategoryUseCase;
 
     @Autowired
+    private UpdateCategoryUseCase updateCategoryUseCase;
+
+    @Autowired
     private CategoryRepository categoryRepository;
 
     @Autowired
     private CategoryGateway categoryGateway;
-    @Autowired
-    private UpdateCategoryUseCase updateCategoryUseCase;
-
-    void cleanup(){
-        categoryRepository.deleteAll();
-        categoryRepository.flush();
-    }
 
     @BeforeEach
     void mockUp() {
-        cleanup();
+        // Clean up before
+        categoryRepository.deleteAll();
+        categoryRepository.flush();
 
         final var categories = Stream.of(
                         Category.newCategory("Filmes", null, true),
@@ -76,7 +74,7 @@ public class CategoryIntegratedTests {
         final String expectedDescription = "A categoria mais assistida";
         final boolean expectedIsActive = true;
 
-        Assertions.assertEquals(0, categoryRepository.count());
+        Assertions.assertEquals(7, categoryRepository.count());
 
         final CreateCategoryDTO aCommand = new CreateCategoryDTO(expectedName, expectedDescription, expectedIsActive);
 
@@ -85,7 +83,7 @@ public class CategoryIntegratedTests {
         Assertions.assertNotNull(actualOutput);
         Assertions.assertNotNull(actualOutput.getId());
 
-        Assertions.assertEquals(1, categoryRepository.count());
+        Assertions.assertEquals(8, categoryRepository.count());
 
         final CategoryEntity actualCategory = categoryRepository.findById(actualOutput.getId()).get();
 
@@ -267,22 +265,22 @@ public class CategoryIntegratedTests {
                         .toList()
         );
 
-        Assertions.assertEquals(1, categoryRepository.count());
+        Assertions.assertEquals(8, categoryRepository.count());
 
         Assertions.assertDoesNotThrow(() -> deleteCategoryUseCase.execute(deleteCategoryDTO));
 
-        Assertions.assertEquals(0, categoryRepository.count());
+        Assertions.assertEquals(7, categoryRepository.count());
     }
 
     @Test
     public void deleteCategoryWithInvalidIdTest() {
         final DeleteCategoryDTO deleteCategoryDTO = new DeleteCategoryDTO("oi");
 
-        Assertions.assertEquals(0, categoryRepository.count());
+        Assertions.assertEquals(7, categoryRepository.count());
 
         Assertions.assertDoesNotThrow(() -> deleteCategoryUseCase.execute(deleteCategoryDTO));
 
-        Assertions.assertEquals(0, categoryRepository.count());
+        Assertions.assertEquals(7, categoryRepository.count());
     }
 
     /* UPDATE INTEGRATED TESTS */
@@ -303,7 +301,7 @@ public class CategoryIntegratedTests {
 
         final UpdateCategoryDTO updateCategoryDTO = new UpdateCategoryDTO(expectedId, expectedName, expectedDescription, expectedIsActive);
 
-        Assertions.assertEquals(1, categoryRepository.count());
+        Assertions.assertEquals(8, categoryRepository.count());
 
         try {
             final Category actualOutput = updateCategoryUseCase.execute(updateCategoryDTO);
