@@ -1,0 +1,16 @@
+# Sobrescreve algumas configurações do application.yaml para o ambiente de produção
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:${postgres.port}/dotflix
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+  flyway:
+    url: jdbc:postgresql://localhost:${postgres.port}/dotflix
+    user: postgres
+    password: postgres
