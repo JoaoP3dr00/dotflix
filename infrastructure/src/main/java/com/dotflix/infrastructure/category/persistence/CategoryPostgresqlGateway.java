@@ -2,9 +2,8 @@ package com.dotflix.infrastructure.category.persistence;
 
 import com.dotflix.domain.category.Category;
 import com.dotflix.domain.category.CategoryGateway;
-import com.dotflix.domain.category.CategorySearchQuery;
+import com.dotflix.domain.SearchQuery;
 import com.dotflix.domain.Pagination;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -44,7 +43,7 @@ public class CategoryPostgresqlGateway implements CategoryGateway {
     }
 
     @Override
-    public Pagination<Category> findAll(final CategorySearchQuery aQuery) {
+    public Pagination<Category> findAll(final SearchQuery aQuery) {
         // Cria o objeto Pageable do Spring usando CategorySearchQuery do Domain para manter o desacoplamento
         final Pageable page = PageRequest.of(
                 aQuery.page(),

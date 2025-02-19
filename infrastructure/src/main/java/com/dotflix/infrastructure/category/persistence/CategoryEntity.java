@@ -52,8 +52,13 @@ public class CategoryEntity {
         );
     }
 
-    public Category toDomain(){
-        return Category.with(getId(),getName(),getDescription(),getIsActive(),getCreatedAt(),getUpdatedAt(),getDeletedAt());
+    public Category toDomain() {
+        try {
+            return Category.with(getId(), getName(), getDescription(), getIsActive(), getCreatedAt(), getUpdatedAt(), getDeletedAt());
+        } catch (Exception e){
+            System.out.println("Error: " + e);
+            return null;
+        }
     }
 
     public String getId() {

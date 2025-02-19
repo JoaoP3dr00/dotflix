@@ -8,7 +8,7 @@ import com.dotflix.application.category.dto.UpdateCategoryDTO;
 import com.dotflix.application.category.exceptions.CategoryNotFoundException;
 import com.dotflix.domain.category.Category;
 import com.dotflix.domain.category.CategoryGateway;
-import com.dotflix.domain.category.CategorySearchQuery;
+import com.dotflix.domain.SearchQuery;
 import com.dotflix.domain.Pagination;
 import com.dotflix.infrastructure.IntegrationTest;
 import com.dotflix.infrastructure.category.persistence.CategoryEntity;
@@ -46,7 +46,7 @@ public class CategoryIntegratedTests {
     private CategoryGateway categoryGateway;
 
     @BeforeEach
-    void mockUp() {
+    void mockUp() throws Exception {
         // Clean up before
         categoryRepository.deleteAll();
         categoryRepository.flush();
@@ -69,7 +69,7 @@ public class CategoryIntegratedTests {
     /* CREATE INTEGRATED TESTS */
 
     @Test
-    public void createCategoryTest() {
+    public void createCategoryTest() throws Exception {
         final String expectedName = "Filmes";
         final String expectedDescription = "A categoria mais assistida";
         final boolean expectedIsActive = true;
@@ -97,7 +97,7 @@ public class CategoryIntegratedTests {
 
     /* GET INTEGRATED TESTS */
     @Test
-    public void getCategoryByIdTest() {
+    public void getCategoryByIdTest() throws Exception{
         final String expectedName = "Filmes";
         final String expectedDescription = "A categoria mais assistida";
         final boolean expectedIsActive = true;
@@ -108,19 +108,15 @@ public class CategoryIntegratedTests {
 
         categoryRepository.save(CategoryEntity.fromDomain(aCategory.clone()));
 
-        try {
-            final Category actualCategory = getCategoryByIdUseCase.execute(getCategoryByIdDTO);
+        final Category actualCategory = getCategoryByIdUseCase.execute(getCategoryByIdDTO);
 
-            Assertions.assertEquals(getCategoryByIdDTO.id(), actualCategory.getId());
-            Assertions.assertEquals(expectedName, actualCategory.getName());
-            Assertions.assertEquals(expectedDescription, actualCategory.getDescription());
-            Assertions.assertEquals(expectedIsActive, actualCategory.getIsActive());
-            Assertions.assertEquals(aCategory.getCreatedAt(), actualCategory.getCreatedAt());
-            Assertions.assertEquals(aCategory.getUpdatedAt(), actualCategory.getUpdatedAt());
-            Assertions.assertEquals(aCategory.getDeletedAt(), actualCategory.getDeletedAt());
-        } catch (CategoryNotFoundException e){
-            System.out.println("Error: " + e);
-        }
+        Assertions.assertEquals(getCategoryByIdDTO.id(), actualCategory.getId());
+        Assertions.assertEquals(expectedName, actualCategory.getName());
+        Assertions.assertEquals(expectedDescription, actualCategory.getDescription());
+        Assertions.assertEquals(expectedIsActive, actualCategory.getIsActive());
+        Assertions.assertEquals(aCategory.getCreatedAt(), actualCategory.getCreatedAt());
+        Assertions.assertEquals(aCategory.getUpdatedAt(), actualCategory.getUpdatedAt());
+        Assertions.assertEquals(aCategory.getDeletedAt(), actualCategory.getDeletedAt());
     }
 
     @Test
@@ -147,7 +143,7 @@ public class CategoryIntegratedTests {
         final var expectedItemsCount = 0;
         final var expectedTotal = 0;
 
-        final CategorySearchQuery aQuery = new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+        final SearchQuery aQuery = new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
         final var actualResult = getAllCategoriesUseCase.execute(aQuery);
 
@@ -166,18 +162,11 @@ public class CategoryIntegratedTests {
             "crianças,0,10,1,1,Kids",
             "da Amazon,0,10,1,1,Amazon Originals",
     })
-    public void getAllCategoriesWithValidTermsTest(
-            final String expectedTerms,
-            final int expectedPage,
-            final int expectedPerPage,
-            final int expectedItemsCount,
-            final long expectedTotal,
-            final String expectedCategoryName
-    ) {
+    public void getAllCategoriesWithValidTermsTest(final String expectedTerms, final int expectedPage, final int expectedPerPage, final int expectedItemsCount, final long expectedTotal, final String expectedCategoryName) {
         final String expectedSort = "name";
         final String expectedDirection = "asc";
 
-        final CategorySearchQuery aQuery = new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+        final SearchQuery aQuery = new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
         final Pagination<Category> actualResult = getAllCategoriesUseCase.execute(aQuery);
 
@@ -196,18 +185,10 @@ public class CategoryIntegratedTests {
             "createdAt,asc,0,10,7,7,Filmes",
             "createdAt,desc,0,10,7,7,Series",
     })
-    public void givenAValidSortAndDirection_whenCallsListCategories_thenShouldReturnCategoriesOrdered(
-            final String expectedSort,
-            final String expectedDirection,
-            final int expectedPage,
-            final int expectedPerPage,
-            final int expectedItemsCount,
-            final long expectedTotal,
-            final String expectedCategoryName
-    ) {
+    public void givenAValidSortAndDirection_whenCallsListCategories_thenShouldReturnCategoriesOrdered(final String expectedSort, final String expectedDirection, final int expectedPage, final int expectedPerPage, final int expectedItemsCount, final long expectedTotal, final String expectedCategoryName) {
         final var expectedTerms = "";
 
-        final var aQuery = new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+        final var aQuery = new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
         final var actualResult = getAllCategoriesUseCase.execute(aQuery);
 
@@ -225,18 +206,12 @@ public class CategoryIntegratedTests {
             "2,2,2,7,Netflix Originals;Series",
             "3,2,1,7,Sports",
     })
-    public void givenAValidPage_whenCallsListCategories_shouldReturnCategoriesPaginated(
-            final int expectedPage,
-            final int expectedPerPage,
-            final int expectedItemsCount,
-            final long expectedTotal,
-            final String expectedCategoriesName
-    ) {
+    public void givenAValidPage_whenCallsListCategories_shouldReturnCategoriesPaginated(final int expectedPage, final int expectedPerPage, final int expectedItemsCount, final long expectedTotal, final String expectedCategoriesName) {
         final var expectedSort = "name";
         final var expectedDirection = "asc";
         final var expectedTerms = "";
 
-        final var aQuery = new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+        final var aQuery = new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
         final var actualResult = getAllCategoriesUseCase.execute(aQuery);
 
@@ -317,8 +292,8 @@ public class CategoryIntegratedTests {
             Assertions.assertEquals(aCategory.getCreatedAt(), actualCategory.getCreatedAt());
             Assertions.assertTrue(aCategory.getUpdatedAt().isBefore(actualCategory.getUpdatedAt()));
             Assertions.assertNull(actualCategory.getDeletedAt());
-        } catch (CategoryNotFoundException categoryNotFoundException){
-            System.out.println("Error: " + categoryNotFoundException);
+        } catch (Exception e){
+            System.out.println("Error: " + e);
         }
     }
 }

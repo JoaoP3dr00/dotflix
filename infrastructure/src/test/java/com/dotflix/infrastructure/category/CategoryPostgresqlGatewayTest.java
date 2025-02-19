@@ -2,7 +2,7 @@ package com.dotflix.infrastructure.category;
 
 import com.dotflix.domain.category.Category;
 import com.dotflix.domain.category.CategoryGateway;
-import com.dotflix.domain.category.CategorySearchQuery;
+import com.dotflix.domain.SearchQuery;
 import com.dotflix.domain.Pagination;
 import com.dotflix.infrastructure.category.persistence.CategoryEntity;
 import com.dotflix.infrastructure.category.persistence.CategoryPostgresqlGateway;
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -276,7 +275,7 @@ public class CategoryPostgresqlGatewayTest {
 
         Assertions.assertEquals(3, categoryRepository.count());
 
-        final CategorySearchQuery query = new CategorySearchQuery(0, 1, "", "name", "asc");
+        final SearchQuery query = new SearchQuery(0, 1, "", "name", "asc");
 
         final Pagination<Category> actualResult = categoryPostgresqlGateway.findAll(query);
 
@@ -298,7 +297,7 @@ public class CategoryPostgresqlGatewayTest {
         Assertions.assertEquals(0, categoryRepository.count());
 
         // Act
-        final CategorySearchQuery query = new CategorySearchQuery(0, 1, "", "name", "asc");
+        final SearchQuery query = new SearchQuery(0, 1, "", "name", "asc");
         final Pagination<Category> actualResult = categoryPostgresqlGateway.findAll(query);
 
         // Asserts
@@ -326,7 +325,7 @@ public class CategoryPostgresqlGatewayTest {
         Assertions.assertEquals(3, categoryRepository.count());
 
         // PAGE 0
-        CategorySearchQuery query = new CategorySearchQuery(0, 1, "", "name", "asc");
+        SearchQuery query = new SearchQuery(0, 1, "", "name", "asc");
 
         Pagination<Category> actualResult = categoryPostgresqlGateway.findAll(query);
 
@@ -338,7 +337,7 @@ public class CategoryPostgresqlGatewayTest {
 
         // PAGE 1
         expectedPage = 1;
-        query = new CategorySearchQuery(1, 1, "", "name", "asc");
+        query = new SearchQuery(1, 1, "", "name", "asc");
 
         actualResult = categoryPostgresqlGateway.findAll(query);
 
@@ -350,7 +349,7 @@ public class CategoryPostgresqlGatewayTest {
 
         // PAGE 2
         expectedPage = 2;
-        query = new CategorySearchQuery(2, 1, "", "name", "asc");
+        query = new SearchQuery(2, 1, "", "name", "asc");
 
         actualResult = categoryPostgresqlGateway.findAll(query);
 
@@ -379,7 +378,7 @@ public class CategoryPostgresqlGatewayTest {
 
         Assertions.assertEquals(3, categoryRepository.count());
 
-        final CategorySearchQuery query = new CategorySearchQuery(0, 1, "doc", "name", "asc");
+        final SearchQuery query = new SearchQuery(0, 1, "doc", "name", "asc");
 
         final Pagination<Category> actualResult = categoryPostgresqlGateway.findAll(query);
 
@@ -408,7 +407,7 @@ public class CategoryPostgresqlGatewayTest {
 
         Assertions.assertEquals(3, categoryRepository.count());
 
-        final CategorySearchQuery query = new CategorySearchQuery(0, 1, "MAIS ASSISTIDA", "name", "asc");
+        final SearchQuery query = new SearchQuery(0, 1, "MAIS ASSISTIDA", "name", "asc");
 
         final Pagination<Category> actualResult = categoryPostgresqlGateway.findAll(query);
 

@@ -3,10 +3,10 @@ package com.dotflix.application.category;
 import com.dotflix.application.UseCase;
 import com.dotflix.domain.category.Category;
 import com.dotflix.domain.category.CategoryGateway;
-import com.dotflix.domain.category.CategorySearchQuery;
+import com.dotflix.domain.SearchQuery;
 import com.dotflix.domain.Pagination;
 
-public class GetAllCategoriesUseCase extends UseCase<CategorySearchQuery, Pagination<Category>> {
+public class GetAllCategoriesUseCase extends UseCase<SearchQuery, Pagination<Category>> {
     private final CategoryGateway categoryGateway;
 
     public GetAllCategoriesUseCase(final CategoryGateway categoryGateway){
@@ -14,7 +14,7 @@ public class GetAllCategoriesUseCase extends UseCase<CategorySearchQuery, Pagina
     }
 
     @Override
-    public Pagination<Category> execute(CategorySearchQuery categorySearchQuery) {
+    public Pagination<Category> execute(SearchQuery categorySearchQuery) {
         return this.categoryGateway.findAll(categorySearchQuery);
     }
 }
