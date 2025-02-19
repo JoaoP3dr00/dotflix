@@ -14,13 +14,18 @@ public class UpdateCategoryUseCase extends UseCase<UpdateCategoryDTO, Category> 
     }
 
     @Override
-    public Category execute(UpdateCategoryDTO updateCategoryDTO) throws CategoryNotFoundException {
-        final Category category = this.categoryGateway.findById(updateCategoryDTO.id()).orElseThrow(() -> new CategoryNotFoundException("A categoria " + updateCategoryDTO.id() + " não foi encontrada."));
+    public Category execute(UpdateCategoryDTO updateCategoryDTO) {
+        try {
+            final Category category = this.categoryGateway.findById(updateCategoryDTO.id()).orElseThrow(() -> new CategoryNotFoundException("A categoria " + updateCategoryDTO.id() + " não foi encontrada."));
 
-        category.update(updateCategoryDTO.name(), updateCategoryDTO.description(), updateCategoryDTO.isActive());
+            category.update(updateCategoryDTO.name(), updateCategoryDTO.description(), updateCategoryDTO.isActive());
 
-        this.categoryGateway.update(category);
+            this.categoryGateway.update(category);
 
-        return category;
+            return category;
+        } catch (Exception e){
+            System.out.println("Error: " + e);
+            return null;
+        }
     }
 }

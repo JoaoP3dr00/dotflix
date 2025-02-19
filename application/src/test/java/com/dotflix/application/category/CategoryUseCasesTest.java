@@ -8,7 +8,7 @@ import com.dotflix.application.category.exceptions.CategoryNotFoundException;
 import com.dotflix.domain.Pagination;
 import com.dotflix.domain.category.Category;
 import com.dotflix.domain.category.CategoryGateway;
-import com.dotflix.domain.category.CategorySearchQuery;
+import com.dotflix.domain.SearchQuery;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ public class CategoryUseCasesTest {
     private CreateCategoryUseCase createCategoryUseCase;
 
     @Test
-    public void createCategoryUseCaseTest(){
+    public void createCategoryUseCaseTest() throws Exception{
         // Arrange
         final String expectedName = "Filmes";
         final String expectedDescription = "Description";
@@ -71,7 +71,7 @@ public class CategoryUseCasesTest {
 
 //    @Test
 //    public void createCategoryUseCaseWithInvalidUsernameTest(){
-//        // Vídeo 2072 tem outros testes e aprofundamento no mockito
+//
 //    }
 
     /* DELETE TESTS */
@@ -116,7 +116,7 @@ public class CategoryUseCasesTest {
     private GetAllCategoriesUseCase getAllCategoriesUseCase;
 
     @Test
-    public void getCategoryByIdUseCaseTest(){
+    public void getCategoryByIdUseCaseTest() throws Exception{
         // Arrange
         final Category category = Category.newCategory("Filmes", "description", true);
 
@@ -137,14 +137,14 @@ public class CategoryUseCasesTest {
 
 //    @Test
 //    public void getCategoryByInvalidIdUseCaseTest(){
-//        // Aula F2084
+//
 //    }
 //
 //    @Test
 //    public void getCategoryByValidIdExceptionUseCaseTest(){}
 
     @Test
-    public void getCategoriesUseCaseTest(){
+    public void getCategoriesUseCaseTest() throws Exception {
         // Arrange
         final List<Category> categories = List.of(Category.newCategory("Filmes", null, true), Category.newCategory("Series", null, true));
 
@@ -158,7 +158,7 @@ public class CategoryUseCasesTest {
 
         final int expectedItemCount = 2;
 
-        final CategorySearchQuery query = new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+        final SearchQuery query = new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
         // Act
         Mockito.when(categoryGateway.findAll(Mockito.eq(query))).thenReturn(expectedPagination);
@@ -188,7 +188,7 @@ public class CategoryUseCasesTest {
 
         final int expectedItemCount = 0;
 
-        final CategorySearchQuery query = new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+        final SearchQuery query = new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
         // Act
         Mockito.when(categoryGateway.findAll(Mockito.eq(query))).thenReturn(expectedPagination);
@@ -214,7 +214,7 @@ public class CategoryUseCasesTest {
         final String expectedDirection = "asc";
         final String expectedErrorMessage = "Gateway error";
 
-        final CategorySearchQuery query = new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
+        final SearchQuery query = new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
         // Act
         Mockito.when(categoryGateway.findAll(Mockito.eq(query))).thenThrow(new IllegalStateException(expectedErrorMessage));
@@ -231,7 +231,7 @@ public class CategoryUseCasesTest {
     private UpdateCategoryUseCase updateCategoryUseCase;
 
     @Test
-    public void updateCategoryUseCaseTest(){
+    public void updateCategoryUseCaseTest() throws Exception {
         // Arrange
         final String expectedName = "Filmes";
         final String expectedDescription = "A description";
@@ -247,32 +247,28 @@ public class CategoryUseCasesTest {
         Mockito.when(categoryGateway.update(Mockito.any())).thenAnswer(returnsFirstArg());
 
         // Assert
-        try {
-            final Category actualCategory = updateCategoryUseCase.execute(updateCategoryDTO);
+        final Category actualCategory = updateCategoryUseCase.execute(updateCategoryDTO);
 
-            Assertions.assertNotNull(actualCategory);
-            Assertions.assertNotNull(actualCategory.getId());
+        Assertions.assertNotNull(actualCategory);
+        Assertions.assertNotNull(actualCategory.getId());
 
-            Mockito.verify(categoryGateway, Mockito.times(1)).findById(Mockito.eq(category.getId()));
-            Mockito.verify(categoryGateway, Mockito.times(1)).update(Mockito.argThat(
-                    updatedCategory -> {
-                        return Objects.equals(expectedName, updatedCategory.getName())
-                                && Objects.equals(expectedDescription, updatedCategory.getDescription())
-                                && Objects.equals(expectedIsActive, updatedCategory.getIsActive())
-                                && Objects.nonNull(updatedCategory.getId())
-                                && Objects.equals(category.getCreatedAt(), updatedCategory.getCreatedAt())
-                                && category.getCreatedAt().isBefore(updatedCategory.getUpdatedAt())
-                                && Objects.isNull(updatedCategory.getDeletedAt());
-                    }
-            ));
-        }catch (CategoryNotFoundException categoryNotFoundException){
-            System.out.println("Error: " + categoryNotFoundException);
-        }
+        Mockito.verify(categoryGateway, Mockito.times(1)).findById(Mockito.eq(category.getId()));
+        Mockito.verify(categoryGateway, Mockito.times(1)).update(Mockito.argThat(
+                updatedCategory -> {
+                    return Objects.equals(expectedName, updatedCategory.getName())
+                            && Objects.equals(expectedDescription, updatedCategory.getDescription())
+                            && Objects.equals(expectedIsActive, updatedCategory.getIsActive())
+                            && Objects.nonNull(updatedCategory.getId())
+                            && Objects.equals(category.getCreatedAt(), updatedCategory.getCreatedAt())
+                            && category.getCreatedAt().isBefore(updatedCategory.getUpdatedAt())
+                            && Objects.isNull(updatedCategory.getDeletedAt());
+                }
+        ));
     }
 
 //    @Test
 //    public void updateCategoryWithInvalidPropertyUseCaseTest(){
-//        // Aula 2079
+//
 //    }
 
 }

@@ -8,7 +8,7 @@ import com.dotflix.application.category.dto.UpdateCategoryDTO;
 import com.dotflix.application.category.exceptions.CategoryNotFoundException;
 import com.dotflix.domain.Pagination;
 import com.dotflix.domain.category.Category;
-import com.dotflix.domain.category.CategorySearchQuery;
+import com.dotflix.domain.SearchQuery;
 import com.dotflix.infrastructure.category.controller.dto.CategoryGetAllResponse;
 import com.dotflix.infrastructure.category.controller.dto.CategoryResponse;
 import com.dotflix.infrastructure.category.controller.dto.CreateCategoryRequest;
@@ -55,7 +55,7 @@ public class CategoryController implements CategoryAPI {
 
     @Override
     public Pagination<CategoryGetAllResponse> getAllCategories(final String search, final int page, final int perPage, final String sort, final String direction) {
-        return getAllCategoriesUseCase.execute(new CategorySearchQuery(page, perPage, search, sort, direction)).map(CategoryApiPresenter::presentGetAll);
+        return getAllCategoriesUseCase.execute(new SearchQuery(page, perPage, search, sort, direction)).map(CategoryApiPresenter::presentGetAll);
     }
 
     @Override
@@ -66,8 +66,6 @@ public class CategoryController implements CategoryAPI {
             final CategoryResponse response = CategoryApiPresenter.present(this.getCategoryByIdUseCase.execute(getCategoryByIdDTO));
 
             return ResponseEntity.ok(response);
-        } catch (CategoryNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Categoria não encontrada: " + e);
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ID Inválido: " + e.getMessage());
         }

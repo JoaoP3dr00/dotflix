@@ -5,7 +5,7 @@ import java.util.Random;
 import java.time.Instant;
 
 public class Category implements Cloneable {
-    private String id;
+    private final String id;
     private String name;
     private String description;
     private boolean isActive;
@@ -13,7 +13,7 @@ public class Category implements Cloneable {
     private Instant updatedAt;
     private Instant deletedAt;
 
-    private Category(final String id, final String name, final String description, final boolean isActive, final Instant createdAt, final Instant updatedAt, final Instant deletedAt) {
+    private Category(final String id, final String name, final String description, final boolean isActive, final Instant createdAt, final Instant updatedAt, final Instant deletedAt) throws Exception {
         this.id = Objects.requireNonNull(id, "'id' should not be null");
         this.name = name;
         this.description = description;
@@ -21,20 +21,28 @@ public class Category implements Cloneable {
         this.createdAt = Objects.requireNonNull(createdAt, "'createdAt' should not be null");
         this.updatedAt = Objects.requireNonNull(updatedAt, "'updatedAt' should not be null");
         this.deletedAt = deletedAt;
+        validate();
     }
 
     /**
-     * Factory Method that
+     * Factory Method to create new category
      * @param name
      * @param description
      * @param active
      * @return
      */
-    public static Category newCategory(final String name, final String description, final boolean active){
+    public static Category newCategory(final String name, final String description, final boolean active) {
         Random r = new Random();
-        final Integer id = r.nextInt(1000);
+        final int id = r.nextInt(1000);
+
         final var deletedAt = active ? null : Instant.now();
-        return new Category(Integer.toString(id), name, description, active, Instant.now(), Instant.now(), deletedAt);
+
+        try {
+            return new Category(Integer.toString(id), name, description, active, Instant.now(), Instant.now(), deletedAt);
+        } catch (Exception e){
+            System.out.println("Error: " + e);
+            return null;
+        }
     }
 
     /**
@@ -48,7 +56,7 @@ public class Category implements Cloneable {
      * @param deletedAt
      * @return
      */
-    public static Category with(final String id, final String name, final String description, final boolean isActive, final Instant createdAt, final Instant updatedAt, final Instant deletedAt){
+    public static Category with(final String id, final String name, final String description, final boolean isActive, final Instant createdAt, final Instant updatedAt, final Instant deletedAt)throws Exception{
         return new Category(id, name, description, isActive, createdAt, updatedAt, deletedAt);
     }
 
@@ -138,7 +146,7 @@ public class Category implements Cloneable {
         return this;
     }
 
-    public Category update(final String name, final String description, final boolean isActive){
+    public Category update(final String name, final String description, final boolean isActive) {
         setName(name);
         setDescription(description);
         if(isActive)
@@ -147,6 +155,14 @@ public class Category implements Cloneable {
             deactivate();
 
         this.updatedAt = Instant.now();
+
+        try {
+            validate();
+        } catch (Exception e){
+            System.out.println("Error: " + e);
+            return null;
+        }
+
         return this;
     }
 
@@ -154,9 +170,8 @@ public class Category implements Cloneable {
     @Override
     public Category clone() {
         try {
-            Category clone = (Category) super.clone();
             // TODO: copy mutable state here, so the clone can't change the internals of the original
-            return clone;
+            return (Category) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }

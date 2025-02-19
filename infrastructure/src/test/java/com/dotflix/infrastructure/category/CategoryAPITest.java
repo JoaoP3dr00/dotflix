@@ -6,18 +6,14 @@ import com.dotflix.application.category.dto.GetCategoryByIdDTO;
 import com.dotflix.domain.Pagination;
 import com.dotflix.domain.category.Category;
 import com.dotflix.infrastructure.ApiTest;
-import com.dotflix.infrastructure.ControllerTest;
-import com.dotflix.infrastructure.category.controller.CategoryAPI;
 import com.dotflix.infrastructure.category.controller.dto.CreateCategoryRequest;
 import com.dotflix.infrastructure.category.controller.dto.UpdateCategoryRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockSettings;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -26,8 +22,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import javax.swing.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -128,7 +122,7 @@ public class CategoryAPITest {
     }
 
     @Test
-    public void getAllCategoriesTest() throws Exception {
+    public void getAllCategoriesTest() throws Exception{
         // given
         final Category aCategory = Category.newCategory("Movies", null, true);
 
@@ -140,7 +134,8 @@ public class CategoryAPITest {
         final int expectedItemsCount = 1;
         final int expectedTotal = 1;
 
-        final List<Category> expectedItems = List.of((aCategory));
+        assert aCategory != null;
+        final List<Category> expectedItems = List.of(aCategory);
 
         Mockito.when(getAllCategoriesUseCase.execute(Mockito.any())).thenReturn(new Pagination<>(expectedPage, expectedPerPage, expectedTotal, expectedItems));
 
@@ -181,7 +176,7 @@ public class CategoryAPITest {
 
     /* UPDATE TESTS */
     @Test
-    public void updateCategoryTest() throws Exception {
+    public void updateCategoryTest() throws Exception{
         // given
         final String expectedName = "Filmes";
         final String expectedDescription = "A categoria mais assistida";
@@ -217,7 +212,7 @@ public class CategoryAPITest {
 
     /* DELETE TESTS */
     @Test
-    public void givenAValidId_whenCallsDeleteCategory_shouldReturnNoContent() throws Exception {
+    public void givenAValidId_whenCallsDeleteCategory_shouldReturnNoContent() throws Exception{
         // given
         final var expectedId = "123";
 

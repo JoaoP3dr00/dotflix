@@ -1,5 +1,6 @@
 package com.dotflix.domain.category;
 
+import com.dotflix.domain.SearchQuery;
 import com.dotflix.domain.Pagination;
 
 import java.util.Optional;
@@ -13,5 +14,5 @@ public interface CategoryGateway {
 
     Category update(Category category);
 
-    Pagination<Category> findAll(CategorySearchQuery query);
+    Pagination<Category> findAll(SearchQuery query);
 }
