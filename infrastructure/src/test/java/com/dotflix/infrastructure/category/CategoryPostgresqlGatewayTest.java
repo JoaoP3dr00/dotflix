@@ -4,6 +4,8 @@ import com.dotflix.domain.category.Category;
 import com.dotflix.domain.category.CategoryGateway;
 import com.dotflix.domain.SearchQuery;
 import com.dotflix.domain.Pagination;
+import com.dotflix.infrastructure.PostgreSQLCleanUpExtension;
+import com.dotflix.infrastructure.PostgresqlGatewayTest;
 import com.dotflix.infrastructure.category.persistence.CategoryEntity;
 import com.dotflix.infrastructure.category.persistence.CategoryPostgresqlGateway;
 import com.dotflix.infrastructure.category.persistence.CategoryRepository;
@@ -12,6 +14,7 @@ import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,12 +24,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 import java.util.Optional;
 
-//@DataJpaTest
-@ComponentScan(includeFilters = {
-    @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".*[PostgresqlGateway]")   // Inicia todas as classes que terminam com PostgresqlGateway além das classes do DataJpaTest
-})
-@SpringBootTest(classes = WebServerConfig.class)
-@ActiveProfiles("test")
+@PostgresqlGatewayTest
 public class CategoryPostgresqlGatewayTest {
     @Autowired
     CategoryPostgresqlGateway categoryPostgresqlGateway;
@@ -36,12 +34,6 @@ public class CategoryPostgresqlGatewayTest {
 
     @Autowired
     private CategoryGateway categoryGateway;
-
-    @BeforeEach
-    void cleanup(){
-        categoryRepository.deleteAll();
-        categoryRepository.flush();
-    }
 
     @Test
     public void testDependencies(){

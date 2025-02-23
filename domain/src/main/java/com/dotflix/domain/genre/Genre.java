@@ -29,18 +29,13 @@ public class Genre {
      * @param isActive
      * @return
      */
-    public static Genre newGenre(final String aName, final boolean isActive) {
+    public static Genre newGenre(final String aName, final boolean isActive) throws Exception {
         Random r = new Random();
         final int id = r.nextInt(1000);
 
         final var deletedAt = isActive ? null : Instant.now();
 
-        try {
-            return new Genre(Integer.toString(id), aName, isActive, new ArrayList<>(), Instant.now(), Instant.now(), deletedAt);
-        }catch (Exception e){
-            System.out.println("Error: " + e);
-            return null;
-        }
+        return new Genre(Integer.toString(id), aName, isActive, new ArrayList<>(), Instant.now(), Instant.now(), deletedAt);
     }
 
     /**
@@ -74,16 +69,18 @@ public class Genre {
         }
     }
 
-    public Genre update(final String aName, final boolean isActive, final List<String> categories) throws Exception{
+    public Genre update(final String aName, final boolean isActive, final List<String> categories) throws Exception {
         if (isActive) {
             activate();
         } else {
             deactivate();
         }
+
         this.name = aName;
         this.categories = new ArrayList<>(categories != null ? categories : Collections.emptyList());
         this.updatedAt = Instant.now();
         validate();
+
         return this;
     }
 

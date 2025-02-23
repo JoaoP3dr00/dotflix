@@ -1,4 +1,4 @@
-package com.dotflix.infrastructure.integrated;
+package com.dotflix.infrastructure.category;
 
 import com.dotflix.application.category.*;
 import com.dotflix.application.category.dto.CreateCategoryDTO;
@@ -22,6 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+/**
+ * TESTES DE INTEGRAÇÃO ENTRE A CAMADA DE APLICAÇÃO E A DE INFRAESTRUTURA
+ * */
 @IntegrationTest
 public class CategoryIntegratedTests {
     @Autowired

@@ -15,7 +15,7 @@ public class GetCategoryByIdUseCase extends UseCase<GetCategoryByIdDTO, Category
     }
 
     @Override
-    public Category execute(final GetCategoryByIdDTO getCategoryByIdDTO) throws CategoryNotFoundException{
+    public Category execute(final GetCategoryByIdDTO getCategoryByIdDTO) throws CategoryNotFoundException {
         return this.categoryGateway.findById(getCategoryByIdDTO.id()).orElseThrow(() -> new CategoryNotFoundException("A categoria " + getCategoryByIdDTO.id() + " não foi encontrada."));    // Adicionar exception
     }
 }
