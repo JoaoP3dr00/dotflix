@@ -36,7 +36,8 @@ public class GenreTest {
         final String expectedErrorMessage = "'name' should not be null";
 
         // Act
-        Assertions.assertDoesNotThrow(() -> Genre.newGenre(null, expectedIsActive));
+        final Exception exception = Assertions.assertThrows(Exception.class, () -> Genre.newGenre(null, expectedIsActive));
+        Assertions.assertEquals(expectedErrorMessage, exception.getMessage());
     }
 
     @Test
@@ -47,7 +48,8 @@ public class GenreTest {
         final String expectedErrorMessage = "'name' should not be empty";
 
         // Act
-        Assertions.assertDoesNotThrow(() -> Genre.newGenre(expectedName, expectedIsActive));
+        final Exception exception = Assertions.assertThrows(Exception.class, () -> Genre.newGenre(expectedName, expectedIsActive));
+        Assertions.assertEquals(expectedErrorMessage, exception.getMessage());
     }
 
     @Test
@@ -63,7 +65,8 @@ public class GenreTest {
         final String expectedErrorMessage = "'name' should have between 3 and 255 characters";
 
         // Act
-        Assertions.assertDoesNotThrow(() -> Genre.newGenre(expectedName, expectedIsActive));
+        final Exception exception = Assertions.assertThrows(Exception.class, () -> Genre.newGenre(expectedName, expectedIsActive));
+        Assertions.assertEquals(expectedErrorMessage, exception.getMessage());
     }
 
     @Test

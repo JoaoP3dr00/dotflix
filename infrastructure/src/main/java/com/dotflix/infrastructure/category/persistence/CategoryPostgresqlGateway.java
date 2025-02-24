@@ -10,7 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @Service
 public class CategoryPostgresqlGateway implements CategoryGateway {
@@ -29,7 +32,6 @@ public class CategoryPostgresqlGateway implements CategoryGateway {
     public void deleteById(String id) {
         if (this.repository.existsById(id))
             this.repository.deleteById(id);
-
     }
 
     @Override
@@ -40,6 +42,12 @@ public class CategoryPostgresqlGateway implements CategoryGateway {
     @Override
     public Category update(Category category) {
         return create(category);
+    }
+
+    @Override
+    public List<String> existsByIds(Iterable<String> categoryIds) {
+        final var ids = StreamSupport.stream(categoryIds.spliterator(), false).toList();
+        return this.repository.existsByIds(ids).stream().toList();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.dotflix.infrastructure;
 
 import com.dotflix.infrastructure.category.persistence.CategoryRepository;
+import com.dotflix.infrastructure.genre.persistence.GenreRepository;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.data.repository.CrudRepository;
@@ -16,6 +17,7 @@ public class PostgreSQLCleanUpExtension implements BeforeEachCallback {
         final var appContext = SpringExtension.getApplicationContext(context);
 
         cleanUp(List.of(
+                appContext.getBean(GenreRepository.class),
                 appContext.getBean(CategoryRepository.class)
         ));
     }

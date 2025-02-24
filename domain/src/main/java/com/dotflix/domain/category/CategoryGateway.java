@@ -3,6 +3,7 @@ package com.dotflix.domain.category;
 import com.dotflix.domain.SearchQuery;
 import com.dotflix.domain.Pagination;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CategoryGateway {
@@ -15,4 +16,6 @@ public interface CategoryGateway {
     Category update(Category category);
 
     Pagination<Category> findAll(SearchQuery query);
+
+    List<String> existsByIds(Iterable<String> ids);
 }
