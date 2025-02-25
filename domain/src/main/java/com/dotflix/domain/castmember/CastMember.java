@@ -1,5 +1,6 @@
 package com.dotflix.domain.castmember;
 
+import java.security.spec.ECField;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.Random;
@@ -30,6 +31,16 @@ public class CastMember {
 
     public static CastMember with(final String id, final String name, final CastMemberType type, final Instant createdAt, final Instant updatedAt) throws Exception {
         return new CastMember(id, name, type, createdAt, updatedAt);
+    }
+
+    public static CastMember with(final CastMember aMember) throws Exception {
+        return new CastMember(
+                aMember.id,
+                aMember.name,
+                aMember.type,
+                aMember.createdAt,
+                aMember.updatedAt
+        );
     }
 
     public CastMember update(final String name, final CastMemberType type) throws Exception {
