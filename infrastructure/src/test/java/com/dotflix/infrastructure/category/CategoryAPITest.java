@@ -6,19 +6,20 @@ import com.dotflix.application.category.dto.GetCategoryByIdDTO;
 import com.dotflix.domain.Pagination;
 import com.dotflix.domain.category.Category;
 import com.dotflix.infrastructure.ApiTest;
+import com.dotflix.infrastructure.ControllerTest;
+import com.dotflix.infrastructure.category.controller.CategoryAPI;
 import com.dotflix.infrastructure.category.controller.dto.CreateCategoryRequest;
 import com.dotflix.infrastructure.category.controller.dto.UpdateCategoryRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -26,14 +27,10 @@ import java.util.List;
 import java.util.Objects;
 
 @ActiveProfiles("test")
-@WebMvcTest
-//@ControllerTest(controllers = CategoryAPI.class)
+@ControllerTest(controllers = CategoryAPI.class)
 public class CategoryAPITest {
     @Autowired
     private MockMvc mvc;
-
-    @Autowired
-    private ObjectMapper mapper;
 
     @MockitoBean
     private CreateCategoryUseCase createCategoryUseCase;
@@ -64,11 +61,13 @@ public class CategoryAPITest {
 
         Mockito.when(createCategoryUseCase.execute(Mockito.any())).thenReturn(category);
 
+        String jsonInput = String.format("{\"name\":\"%s\",\"description\":\"%s\",\"isActive\":\"%s\"}", aInput.name(), aInput.description(), aInput.active());
+
         // Act
         final var request = MockMvcRequestBuilders.post("/categories")
                 .with(ApiTest.CATEGORIES_JWT)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(this.mapper.writeValueAsString(aInput));
+                .content(jsonInput);
 
         final ResultActions response = this.mvc.perform(request).andDo(MockMvcResultHandlers.print());
 
@@ -85,10 +84,10 @@ public class CategoryAPITest {
         ));
     }
 
-    /* GET TESTS */
+    /* GET CATEGORY TESTS */
     @Test
-    public void givenAValidId_whenCallsGetCategory_shouldReturnCategory() throws Exception {
-        // given
+    public void getCategoryTest() throws Exception {
+        // Arrange
         final String expectedName = "Filmes";
         final String expectedDescription = "A categoria mais assistida";
         final boolean expectedIsActive = true;
@@ -99,16 +98,15 @@ public class CategoryAPITest {
 
         Mockito.when(getCategoryByIdUseCase.execute(Mockito.any())).thenReturn(aCategory);
 
-        // when
-        final var request = MockMvcRequestBuilders.get("/categories/{id}", expectedId)
+        // Act
+        final MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/categories/{id}", expectedId)
                 .with(ApiTest.CATEGORIES_JWT)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON);
 
-        final var response = this.mvc.perform(request)
-                .andDo(MockMvcResultHandlers.print());
+        final ResultActions response = this.mvc.perform(request).andDo(MockMvcResultHandlers.print());
 
-        // then
+        // Assert
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.equalTo(expectedId)))
@@ -122,8 +120,8 @@ public class CategoryAPITest {
     }
 
     @Test
-    public void getAllCategoriesTest() throws Exception{
-        // given
+    public void getAllCategoriesTest() throws Exception {
+        // Arrange
         final Category aCategory = Category.newCategory("Movies", null, true);
 
         final int expectedPage = 0;
@@ -137,10 +135,10 @@ public class CategoryAPITest {
         assert aCategory != null;
         final List<Category> expectedItems = List.of(aCategory);
 
-        Mockito.when(getAllCategoriesUseCase.execute(Mockito.any())).thenReturn(new Pagination<>(expectedPage, expectedPerPage, expectedTotal, expectedItems));
+        Mockito.when(getAllCategoriesUseCase.execute(Mockito.any())).thenReturn(new Pagination<Category>(expectedPage, expectedPerPage, expectedTotal, expectedItems));
 
-        // when
-        final var request = MockMvcRequestBuilders.get("/categories")
+        // Act
+        final MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/categories")
                 .with(ApiTest.CATEGORIES_JWT)
                 .queryParam("page", String.valueOf(expectedPage))
                 .queryParam("perPage", String.valueOf(expectedPerPage))
@@ -150,9 +148,9 @@ public class CategoryAPITest {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON);
 
-        final var response = this.mvc.perform(request).andDo(MockMvcResultHandlers.print());
+        final ResultActions response = this.mvc.perform(request).andDo(MockMvcResultHandlers.print());
 
-        // then
+        // Assert
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.currentPage", Matchers.equalTo(expectedPage)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.perPage", Matchers.equalTo(expectedPerPage)))
@@ -176,8 +174,8 @@ public class CategoryAPITest {
 
     /* UPDATE TESTS */
     @Test
-    public void updateCategoryTest() throws Exception{
-        // given
+    public void updateCategoryTest() throws Exception {
+        // Arrange
         final String expectedName = "Filmes";
         final String expectedDescription = "A categoria mais assistida";
         final boolean expectedIsActive = true;
@@ -188,17 +186,18 @@ public class CategoryAPITest {
 
         final UpdateCategoryRequest aCommand = new UpdateCategoryRequest(expectedName, expectedDescription, expectedIsActive);
 
-        // when
-        final var request = MockMvcRequestBuilders.put("/categories/{id}", aCategory.getId())
+        String jsonInput = String.format("{\"name\":\"%s\",\"description\":\"%s\",\"isActive\":\"%s\"}", aCommand.name(), aCommand.description(), aCommand.active());
+
+        // Act
+        final MockHttpServletRequestBuilder request = MockMvcRequestBuilders.put("/categories/{id}", aCategory.getId())
                 .with(ApiTest.CATEGORIES_JWT)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(aCommand));
+                .content(jsonInput);
 
-        final var response = this.mvc.perform(request)
-                .andDo(MockMvcResultHandlers.print());
+        final ResultActions response = this.mvc.perform(request).andDo(MockMvcResultHandlers.print());
 
-        // then
+        // Assert
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.equalTo(aCategory.getId())));
@@ -212,22 +211,22 @@ public class CategoryAPITest {
 
     /* DELETE TESTS */
     @Test
-    public void givenAValidId_whenCallsDeleteCategory_shouldReturnNoContent() throws Exception{
-        // given
-        final var expectedId = "123";
+    public void deleteCategoryTest() throws Exception{
+        // Arrange
+        final String expectedId = "123";
 
         Mockito.when(deleteCategoryUseCase.execute(Mockito.any())).thenReturn("ok");
 
-        // when
-        final var request = MockMvcRequestBuilders.delete("/categories/{id}", expectedId)
+        // Act
+        final MockHttpServletRequestBuilder request = MockMvcRequestBuilders.delete("/categories/{id}", expectedId)
                 .with(ApiTest.CATEGORIES_JWT)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON);
 
-        final var response = this.mvc.perform(request)
+        final ResultActions response = this.mvc.perform(request)
                 .andDo(MockMvcResultHandlers.print());
 
-        // then
+        // Assert
         response.andExpect(MockMvcResultMatchers.status().isNoContent());
 
         Mockito.verify(deleteCategoryUseCase, Mockito.times(1)).execute(Mockito.eq(new DeleteCategoryDTO(expectedId)));

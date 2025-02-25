@@ -5,7 +5,6 @@ import com.dotflix.infrastructure.category.controller.dto.CategoryGetAllResponse
 import com.dotflix.infrastructure.category.controller.dto.CategoryResponse;
 
 public interface CategoryApiPresenter {
-
     static CategoryResponse present(final Category output) {
         return new CategoryResponse(
                 output.getId(),
