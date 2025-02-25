@@ -5,7 +5,6 @@ import com.dotflix.application.category.dto.CreateCategoryDTO;
 import com.dotflix.application.category.dto.DeleteCategoryDTO;
 import com.dotflix.application.category.dto.GetCategoryByIdDTO;
 import com.dotflix.application.category.dto.UpdateCategoryDTO;
-import com.dotflix.application.category.exceptions.CategoryNotFoundException;
 import com.dotflix.domain.Pagination;
 import com.dotflix.domain.category.Category;
 import com.dotflix.domain.SearchQuery;
@@ -14,10 +13,12 @@ import com.dotflix.infrastructure.category.controller.dto.CategoryResponse;
 import com.dotflix.infrastructure.category.controller.dto.CreateCategoryRequest;
 import com.dotflix.infrastructure.category.controller.dto.UpdateCategoryRequest;
 import com.dotflix.infrastructure.category.controller.presenter.CategoryApiPresenter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -49,7 +50,9 @@ public class CategoryController implements CategoryAPI {
         } catch (Exception e){
             System.out.println("Error: " + e);
 
-            return ResponseEntity.unprocessableEntity().body(Map.of("Erro: ", e));
+            return ResponseEntity.unprocessableEntity().body(Map.of(
+                    "errors", List.of(Map.of("message", e.getMessage()))
+            ));
         }
     }
 
