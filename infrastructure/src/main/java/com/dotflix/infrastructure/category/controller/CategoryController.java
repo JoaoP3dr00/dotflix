@@ -13,7 +13,6 @@ import com.dotflix.infrastructure.category.controller.dto.CategoryResponse;
 import com.dotflix.infrastructure.category.controller.dto.CreateCategoryRequest;
 import com.dotflix.infrastructure.category.controller.dto.UpdateCategoryRequest;
 import com.dotflix.infrastructure.category.controller.presenter.CategoryApiPresenter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
