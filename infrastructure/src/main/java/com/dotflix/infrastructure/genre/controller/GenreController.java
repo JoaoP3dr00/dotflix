@@ -69,7 +69,7 @@ public class GenreController implements GenreAPI {
         try {
             final UpdateGenreDTO aCommand = new UpdateGenreDTO(id, input.name(), input.isActive(), input.categories());
 
-            final var output = this.updateGenreUseCase.execute(aCommand);
+            final Genre output = this.updateGenreUseCase.execute(aCommand);
 
             return ResponseEntity.ok(output);
         } catch (Exception e) {
