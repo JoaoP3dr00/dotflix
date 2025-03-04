@@ -176,4 +176,15 @@ public class Category implements Cloneable {
             throw new AssertionError();
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Category category)) return false;
+        return isActive == category.isActive && Objects.equals(getId(), category.getId()) && Objects.equals(getName(), category.getName()) && Objects.equals(getDescription(), category.getDescription()) && Objects.equals(getCreatedAt(), category.getCreatedAt()) && Objects.equals(getUpdatedAt(), category.getUpdatedAt()) && Objects.equals(getDeletedAt(), category.getDeletedAt());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getDescription(), isActive, getCreatedAt(), getUpdatedAt(), getDeletedAt());
+    }
 }
